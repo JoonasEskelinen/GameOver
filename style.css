@@ -1,0 +1,256 @@
+/* =========================================
+   PERUSASETUKSET JA FONTIT
+========================================= */
+
+/* Tuodaan retro-fontti Google Fontsista */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    box-sizing: border-box;
+    cursor: none; /* Piilotetaan hiiri, koska tämä on "kioskinäyttö" */
+}
+
+body {
+    background-color: #0a0a0a;
+    color: #eee;
+    font-family: 'Press Start 2P', cursive;
+    margin: 0;
+    position: relative;
+    overflow: hidden; /* Estetään skrollaus, jotta CRT-efekti ei mene rikki */
+    height: 100vh; /* Koko näytön korkeus */
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   CRT / PUTKITELEVISIO -EFEKTIT
+========================================= */
+
+/* 1. Vaakasuuntaiset juovat (Scanlines) */
+.scanlines {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50% /* Tummennettu hieman kontrastin luomiseksi */
+    );
+    background-size: 100% 4px; /* Juovan paksuus */
+    z-index: 100;
+    pointer-events: none; /* Estää hiiren/kosketuksen osumisen tähän kerrokseen */
+}
+
+/* 2. Näytön kevyt välkkyminen (Flicker) */
+@keyframes flicker {
+    0% { opacity: 0.97; }
+    5% { opacity: 1.0; }
+    10% { opacity: 0.98; }
+    15% { opacity: 0.99; }
+    20% { opacity: 1.0; }
+    100% { opacity: 1.0; }
+}
+
+.flicker-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(18, 16, 16, 0.05);
+    z-index: 101;
+    pointer-events: none;
+    animation: flicker 0.15s infinite;
+}
+
+/* 3. Ruudun kaarevuus, reunavarjot (Vignette) ja RGB-värivääristymä */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    /* Luo tummat, pyöristetyt nurkat ja hienovaraisen RGB-hehkun reunoille */
+    background: radial-gradient(circle, rgba(18, 16, 16, 0) 60%, rgba(0, 0, 0, 0.6) 100%),
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 100%, 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 150; /* Pidetään päällimmäisenä */
+}
+
+/* =========================================
+   PÄÄASETTELU (LAYOUT)
+========================================= */
+
+#app {
+    padding: 30px; /* Jätetään reunoille hieman mustaa tilaa kuvaputken hengessä */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* Värien retro-tuunaus: hieman enemmän kontrastia ja kellertävyyttä (sepia) */
+    filter: contrast(1.15) brightness(1.1) sepia(0.1);
+    
+    /* Pieni skaalaus ja jatkuva liike luovat illuusion syvyydestä ja kaarevuudesta */
+    transform: scale(1.02);
+    animation: curve-subtle 5s ease-in-out infinite alternate;
+}
+
+/* Animaatio, joka huojuttaa näyttöä hieman eteen ja taakse */
+@keyframes curve-subtle {
+    from { transform: scale(1.02) perspective(1000px) rotateX(0.5deg); }
+    to { transform: scale(1.02) perspective(1000px) rotateX(-0.5deg); }
+}
+
+header {
+    text-align: center;
+    padding: 10px 20px 20px 20px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: #00ffff;
+    text-shadow: 3px 3px #ff00ff; /* Syaani teksti, magenta varjo */
+    margin: 0;
+}
+
+#clock {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #ffff00;
+}
+
+/* =========================================
+   2x2 PELIRUUDUKKO (GRID)
+========================================= */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px; /* Enemmän tilaa korttien välille */
+    padding: 20px 50px;
+    flex: 1;
+}
+
+.game-card {
+    border: 14px solid #fff;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4); /* Puoliläpinäkyvä musta tausta */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.2);
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(255,255,255,0.05) 100%);
+}
+
+/* Pelin otsikko kortin sisällä */
+.game-card h2 {
+    font-size: 2.2rem; /* Suurennettu hieman */
+    margin-top: 0;
+    text-align: center;
+    border-bottom: 6px dashed #444; /* Katkoviiva otsikon alle */
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 5px currentColor; /* Luo pienen hehkun samalla värillä kuin teksti */
+    letter-spacing: 3px;
+}
+
+/* Tulostaulukon yksittäinen rivi */
+.score-row {
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.rank { color: #888; width: 50px; }
+.name { flex-grow: 1; color: #fff; text-align: left; margin-left: 10px; }
+.score { color: #00ff00; text-shadow: 0 0 8px #00ff00; font-weight: bold; } /* Vihreä hehku pisteille */
+
+footer {
+    padding: 15px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* =========================================
+   ERIKOISEFEKTIT JA POPUPIT
+========================================= */
+
+/* Yleinen vilkkumisefekti esim. pääotsikolle */
+.blink {
+    animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+/* Apuluokka elementtien piilottamiseen */
+.hidden { display: none !important; }
+
+/* Koko näytön peittävä "New High Score" -ruutu */
+#new-score-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95); /* Lähes musta tausta */
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    text-align: center;
+}
+
+.neon-text {
+    font-size: 4rem;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff, 0 0 30px #ff00ff, 0 0 50px #ff00ff;
+    margin: 0;
+}
+
+/* Uuden ennätyksen pelin nimi -tyylittely */
+.game-title-popup {
+    font-size: 2.5rem;
+    color: #00ffff;
+    margin-top: 40px;
+    text-shadow: 0 0 10px #00ffff;
+    animation: blinker 0.3s step-start infinite; /* Nopea aggressiivinen vilkkuminen */
+}
+
+/* --- UUDEN MESTARIN TIEDOT POPUPISSA --- */
+
+.player-info-popup {
+    margin-top: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #00ff00;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    display: inline-block;
+    animation: slide-up 0.5s ease-out;
+}
+
+.popup-label {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.popup-name {
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px #00ff00;
+    margin-bottom: 15px;
+}
+
+.popup-score {
+    font-size: 2rem;
+    color: #ffff00;
+    text-shadow: 0 0 10px #ffff00;
+}
+
+/* Pieni animaatio, joka liu'uttaa pelaajan tiedot alhaalta ylös */
+@keyframes slide-up {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
