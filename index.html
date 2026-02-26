@@ -39,7 +39,7 @@
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // --- FIREBASE ASETUKSET ---
-        //piilotettu
+
 
         // Alustetaan Firebase ja tietokanta
         const app = initializeApp(firebaseConfig);
@@ -76,6 +76,8 @@
             const winnerInfo = document.getElementById('winner-info');
 
             if (isTriggered) {
+                    document.body.classList.add('glitch-active');
+                    setTimeout(() => document.body.classList.remove('glitch-active'), 2000);
                 // Jos triggeri on true, haetaan tarkemmat tiedot (Peli, Nimi, Pisteet)
                 onValue(fullStatusRef, (statusSnap) => {
                     const statusData = statusSnap.val() || {};
@@ -94,6 +96,9 @@
                     `;
                     
                     overlay.classList.remove('hidden');
+                    overlay.classList.remove('flash');
+                    void overlay.offsetWidth; // pakottaa selaimen resetoimaan animaation
+                    overlay.classList.add('flash');
                     
                     // Automaattinen piilotus 30 sekunnin kuluttua
                     setTimeout(() => {
