@@ -39,7 +39,15 @@
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // --- FIREBASE ASETUKSET ---
-
+        export const firebaseConfig = {
+        apiKey: "AIzaSyBpMkul4HS4Jm5ce_gP0EevQyZfs8Ng6HU",
+        authDomain: "retrogamehall-fbd1f.firebaseapp.com",
+        databaseURL: "https://retrogamehall-fbd1f-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "retrogamehall-fbd1f",
+        storageBucket: "retrogamehall-fbd1f.firebasestorage.app",
+        messagingSenderId: "496285238995",
+        appId: "1:496285238995:web:15b05e0171f8ba9b1cf626"
+        };
 
         // Alustetaan Firebase ja tietokanta
         const app = initializeApp(firebaseConfig);

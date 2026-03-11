@@ -140,7 +140,7 @@ h1 {
 /* pelikortti */
 .game-card {
     border: 14px solid #fff;
-    padding: clamp(10px, 1.5vw, 20px);
+    padding: clamp(8px, 1.2vw, 15px);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -154,14 +154,14 @@ h1 {
 /* Pelin otsikko kortin sisällä */
 .game-card h2 {
     /* clamp varmistaa luettavuuden kaikilla kokoluokilla */
-    font-size: clamp(0.55rem, 1.8vw, 2.2rem);
+    font-size: clamp(0.7rem, 1.4vw, 1.4rem);
     margin-top: 0;
     text-align: center;
-    border-bottom: 6px dashed #444;
-    padding-bottom: clamp(8px, 1.2vh, 15px);
-    margin-bottom: clamp(10px, 1.5vh, 25px);
+    border-bottom: 3px dashed #444;
+    padding-bottom: clamp(5px, 0.8vh, 10px);
+    margin-bottom: clamp(5px, 0.8vh, 12px);
     text-shadow: 0 0 5px currentColor;
-    letter-spacing: 3px;
+    letter-spacing: 1.5px;
     /* Pitkät pelien nimet lyhennetään ellipsillä */
     white-space: nowrap;
     overflow: hidden;
