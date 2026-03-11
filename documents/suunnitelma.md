@@ -1,46 +1,46 @@
 # Projektidokumentaatio: Retro Game House — High Score Hall of Fame
 
-> Tämä dokumentti kattaa "High Score Hall of Fame" -järjestelmän suunnittelun, toteutuksen ja testauksen. Järjestelmä on luotu modernisoimaan retropeliluolan ennätysten seuranta säilyttäen samalla 80-luvun estetiikan.
+> Tämä dokumentti kattaa "High Score Hall of Fame" -järjestelmän suunnittelun, toteutuksen ja testauksen. Järjestelmä on luotu modernisoimaan retropeliluolan ennätysten seuranta säilyttäen samalla 80-90 lukujen estetiikkaa.
 
 ---
 
-## Vaihe 1: Hallinnollinen perusta
+## Vaihe 1: perusta
 
 ### 1.1 Tavoitteet
 
-Projektin tavoitteena on luoda dynaaminen ennätyslista, joka toimii peliluolan visuaalisena keskipisteenä. Järjestelmän tulee motivoida pelaajia palaamaan rikkomaan ennätyksiä tarjoamalla välittömän ja näyttävän palautteen uudesta tuloksesta.
+Projektin tavoitteena on luoda dynaaminen ennätyslista, joka toimii peliluolan visuaalisena keskipisteenä. Järjestelmän tulee motivoida pelaajia palaamaan rikkomaan ennätyksiä tarjoamalla välittömän ja näyttävän ilmoituksen uudesta tuloksesta.
 
 ### 1.2 Mittarit ja laatuvaatimukset
 
 | Mittari | Vaatimus |
 |---|---|
-| Viive | Tuloksen päivitys mobiilisovelluksesta näytölle alle 1 sekunnissa |
-| Käytettävyys | Uuden tuloksen syöttö ylläpitäjän toimesta alle 15 sekunnissa |
-| Vakaus | Järjestelmän on toimittava keskeytyksettä vähintään 24 tuntia (stressitesti) |
-| Luettavuus | Ennätysten on oltava luettavissa 3–5 metrin etäisyydeltä |
+| Viive | Tuloksen päivitys mobiilisovelluksesta näytölle reaaliajassa |
+| Käytettävyys | Uuden tuloksen syöttö ylläpitäjän toimesta alle kätevästi mobiilista |
+| Vakaus | Järjestelmän on toimittava keskeytyksettä jatkuvasti |
+| Luettavuus | Ennätysten on oltava luettavissa 0–5 metrin etäisyydeltä |
 
 ### 1.3 Työkalut ja teknologiat
 
 - **Versionhallinta:** GitHub
-- **Projektinhallinta:** Trello (tehtävien seuranta ja backlog)
 - **Kehitysympäristö:** VS Code
 
-**Teknologiapino:**
+**Teknologia:**
 
-- Firebase Realtime Database (Sijainti: Belgium/Europe)
+- Firebase Realtime Database (Tietokanta)
 - React Native + TypeScript (mobiilisovellus)
 - HTML5 / CSS3 / JavaScript (näyttöliittymä)
-- Raspberry Pi 4 (hardware & Python-sammutusskripti)
+- Raspberry Pi 5 (hardware & Python-sammutusskripti)
 
-### 1.4 Aikataulu ja sprintit
+### 1.4 Aikataulu 
 
-Projekti toteutettiin kolmessa vaiheessa (sprintissä):
+Projekti toteutetaan kolmessa vaiheessa:
 
-| Sprint | Nimi | Sisältö |
+| Vaihe | Nimi | Sisältö |
 |---|---|---|
-| Sprint 1 | Arkkitehtuuri | Firebase-projektin pystytys, JSON-rakenteen määrittely ja perus-HTML-yhteyden testaus |
-| Sprint 2 | Toiminnallisuus | React Native -mobiilisovelluksen kehitys, CRUD-toiminnot ja reaaliaikainen synkronointi |
-| Sprint 3 | Viimeistely | CRT-efektit, karuselli-logiikan hienosäätö, 2x2 grid -asettelu ja lopullinen testaus |
+| Vaihe 1 | Suunnittelu | Teknologiaratkaisujen vertailu huolella, mikä paras yhdistelmä juuri tähän. |
+| Vaihe 2 | Arkkitehtuuri | Firebase-projektin pystytys, JSON-rakenteen määrittely ja perus-HTML-yhteyden testaus |
+| Vaihe 3 | Toiminnallisuus | React Native -mobiilisovelluksen kehitys ja reaaliaikainen synkronointi |
+| Vaihe 4 | Viimeistely | CRT-efektit(90-luku jäljitelmä), karuselli-logiikan hienosäätö, 2x2 grid -asettelu ja lopullinen testaus |
 
 ---
 
@@ -48,9 +48,9 @@ Projekti toteutettiin kolmessa vaiheessa (sprintissä):
 
 ### 2.1 Toiminnalliset vaatimukset
 
-- Järjestelmän on näytettävä 8 valitun pelin TOP 5 -ennätykset.
-- Näytön on vaihdettava sivua automaattisesti 15 sekunnin välein (karuselli).
-- Mobiilisovelluksella on voitava lisätä, muokata ja poistaa pelejä ja tuloksia.
+- Järjestelmän on näytettävä 8 valitun pelin TOP 5 -ennätykset. Tyyli sen mukaan, että pelejä helppo lisätä jatkossa.
+- Näytön on vaihdettava sivua automaattisesti tietyn ajan välein (karuselli).
+- Mobiilisovelluksella on voitava lisätä, muokata ja poistaa pelejä ja tuloksia. (Pelien lisäyksen ja poiston voi alkuun toteuttaa firebasen kautta).
 - Uuden ennätyksen tullessa näytön on näytettävä "NEW HIGH SCORE" -animaatio.
 - Näyttö on voitava sammuttaa turvallisesti mobiilisovelluksen kautta.
 
@@ -58,7 +58,7 @@ Projekti toteutettiin kolmessa vaiheessa (sprintissä):
 
 - **Visuaalisuus:** Käytössä on oltava `Press Start 2P` -pikselifontti ja CRT-tyyliset scanline-efektit.
 - **Reaaliaikaisuus:** Data-yhteyden on oltava jatkuva (WebSocket/Firebase stream).
-- **Ylläpito:** Järjestelmän on käynnistyttävä automaattisesti sähkökatkon jälkeen (kiosk mode).
+- **Ylläpito:** Ohjelman on käynnistyttävä automaattisesti Raspberryn käynnistyksen jälkeen (kiosk mode).
 
 ### 2.3 Käyttäjätarinat (User Stories)
 
@@ -66,7 +66,6 @@ Projekti toteutettiin kolmessa vaiheessa (sprintissä):
 
 > **Ylläpitäjänä** haluan päivittää tulokset langattomasti kännykällä, jotta voin liikkua vapaasti peliluolassa ilman tarvetta fyysisille oheislaitteille.
 
-> **Ylläpitäjänä** haluan sammuttaa järjestelmän hallitusti sovelluksesta, jotta vältän Raspberry Pi:n SD-kortin vioittumisen.
 
 ---
 
@@ -111,16 +110,15 @@ Näyttöliittymä on jaettu 2x2-ruudukkoon, mikä mahdollistaa optimaalisen luet
 
 | Testi | Kuvaus | Tulos |
 |---|---|---|
-| Reaaliaikaisuus | Pisteen muutos Firebasessa → heijastuminen näytölle | ✅ PASS (viive ~200ms) |
-| Karuselli | Sivun vaihtuminen 15 sekunnin välein | ✅ PASS |
-| Etäsammutus | `commands/shutdown` muutos → Raspberry sammuu | ✅ PASS |
-| Dynaamisuus | 9. pelin lisäys → "Sivu 1 / 3" ilmestyy | ✅ PASS |
+| Reaaliaikaisuus | Pisteen muutos Firebasessa → heijastuminen näytölle reaaliajassa | ✅ |
+| Karuselli | Sivun vaihtuminen 15 sekunnin välein | ✅ |
+| Etäsammutus | `commands/shutdown` muutos → Raspberry sammuu | ✅ |
+| Dynaamisuus | 9. pelin lisäys → "Sivu 1 / 3" ilmestyy | ✅ |
 
 ### 4.2 Palaverimuistiot
 
-- **Aloituspalaveri:** Päätettiin käyttää Firebasea reaaliaikaisuuden vuoksi. Valittiin React Native mobiilialustaksi.
-- **Sprint Review (Sprint 2):** Huomattiin, että 20 peliä kerralla on liikaa. Päätettiin siirtyä 4 peliä/sivu (2x2 grid) -malliin.
-- **Loppukatselmus:** Todettiin CRT-efektien ja "New High Score" -triggerin toimivan odotetusti.
+- **Aloituspalaveri:** Päätettiin käyttää Firebasea reaaliaikaisuuden vuoksi. Valittiin React Native mobiilialustaksi. Tämän jälkeen kysyin yrittäjältä, montako peliä ennätyslistaukseen tulee ja tyyli päätetty sen pohjalta (2x2 grid).
+- **Loppukatselmus:** Todettiin CRT-efektien ja "New High Score" -triggerin toimivan tyylissä odotetulla lailla retrohenkisenä putkitelevisiomaisena tyylinä.
 
 ---
 
@@ -137,3 +135,4 @@ Projekti onnistui teknisesti erinomaisesti. Erityisen tyytyväinen olen visuaali
 - **Pelaajien itsepalvelu:** QR-koodi jokaisen pelikoneen kyljessä, joka vie lomakkeeseen tuloksen syöttämistä varten (vaatii ylläpitäjän hyväksynnän).
 - **Historia-data:** Tallennetaan ennätysten historia, jotta voidaan näyttää "Kuukauden parhaat" -listauksia.
 - **Ääniefektit:** "New High Score" -ilmoituksen yhteyteen 8-bittinen fanfaari.
+
