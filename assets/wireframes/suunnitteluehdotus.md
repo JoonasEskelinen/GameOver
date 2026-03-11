@@ -22,19 +22,12 @@ Ekosysteemi: Raspberry Pi toimii "kiosk-laitteena", joka on optimoitu vain tulos
 
 ## CSS-efektinä
 - Scanline-efekti: Toteutetaan yhdellä div-elementillä, jossa on toistuva lineaarinen gradientti (mustia läpinäkyviä viivoja).
-- Välkyntä (Flicker): Lisätään kevyt opacity-animaatio (0.97 -> 1.0) koko näytölle simuloimaan vanhaa putkitelevisiota.
-- Dynaaminen Fontti: Käytä @font-face -määrittelyä 'Press Start 2P' -fontille.
+- Välkyntä (Flicker): Lisätään kevyt opacity-animaatio koko näytölle simuloimaan vanhaa putkitelevisiota.
 
-# Mobiiliversio (375px)
+# Mobiilisovellus (Hallinnointia varten)
 ## Etusivu:
 - Lista kaikista peleistä (skrollattava).
 
 - Pikavalinta "Lisää uusi tulos".
 
-- Virtapainike (Sammuta näyttö) selkeästi eroteltuna (esim. oikea yläkulma).
-
-## Pelisivu:
-
-- Lomake: Pelaajan nimi (tekstikenttä) ja Pisteet (numeerinen kenttä).
-
-- "Tallenna ja päivitä Hall of Fame" -nappi.
+- Virtapainike Raspberryn sammutusta varten selkeästi eroteltuna (esim. oikea yläkulma).
