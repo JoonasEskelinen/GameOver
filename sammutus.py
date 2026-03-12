@@ -1,4 +1,4 @@
-# Tuodaan käyttöjärjestelmän toiminnot, jotta voimme ajaa Linuxin sammutuskomennon
+# Tuodaan käyttöjärjestelmän toiminnot, jotta voidaan ajaa Linuxin sammutuskomennon
 import os
 
 # Tuodaan aikakirjasto, jolla voimme tauottaa ohjelmaa ja pitää sen käynnissä
@@ -12,29 +12,29 @@ from firebase_admin import credentials, db
 
 # --- 1. FIREBASEN ALUSTUS ---
 
-# Ladataan turva-avain tiedostosta (Tämä ladataan Firebasen asetuksista, ohjeet alla)
+# Ladataan turva-avain tiedostosta 
 cred = credentials.Certificate("serviceAccountKey.json")
 
-# Käynnistetään Firebase-yhteys antamalla turva-avain ja oman tietokantasi URL-osoite
+# Käynnistetään Firebase-yhteys antamalla turva-avain ja tietokannan URL-osoite
 firebase_admin.initialize_app(cred, {
-    # Tähän tulee tietokantasi osoite (löytyy Firebasen Realtime Database -välilehdeltä)
-    'databaseURL': 'https://retrogamelhall-fbd1f-default-rtdb.europe-west1.firebasedatabase.app/'
+    # Tähän tulee tietokannan osoite (löytyy Firebasen Realtime Database -välilehdeltä)
+    'databaseURL': 'https://retrogamehall-fbd1f-default-rtdb.europe-west1.firebasedatabase.app/'
 })
 
 
 # --- 2. KUUNTELIJA-FUNKTIO ---
 
-# Määritetään funktio, joka suoritetaan AINA, kun Firebasen kuunneltu arvo muuttuu
+# Määritetään funktio, joka suoritetaan aina, kun Firebasen kuunneltu arvo muuttuu
 def kuuntele_sammutuskomentoa(event):
     
-    # Tarkistetaan, onko Firebasesta juuri tullut uusi arvo (event.data) tasan True (tosi)
+    # Tarkistetaan, onko Firebasesta juuri tullut uusi arvo
     if event.data == True:
         
-        # Tulostetaan terminaaliin tieto, että komento on otettu vastaan (auttaa testauksessa)
+        # Tulostetaan terminaaliin tieto, että komento on otettu vastaan
         print("Sammutuskomento vastaanotettu! Sammutetaan laite...")
         
-        # TÄRKEÄÄ: Muutetaan Firebasen 'shutdown'-arvo takaisin arvoon 'False' (epätosi)
-        # Jos emme tee tätä, Raspberry Pi sammuttaisi itsensä heti joka kerta kun se käynnistetään!
+        # Muutetaan Firebasen 'shutdown'-arvo takaisin arvoon 'False' (epätosi)
+        # Jos ei tee tätä, Raspberry Pi sammuttaisi itsensä heti joka kerta kun se käynnistetään!
         db.reference('commands/shutdown').set(False)
         
         # Odotetaan 2 sekuntia, jotta Firebase ehtii varmasti tallentaa tuon 'False' arvon verkkoon
@@ -45,7 +45,7 @@ def kuuntele_sammutuskomentoa(event):
         os.system("sudo shutdown -h now")
 
 
-# --- 3. SKRIPTIN KÄYNNISTYS JA YLLÄPITO ---
+# SKRIPTIN KÄYNNISTYS JA YLLÄPITO ---
 
 # Kohdistetaan huomio Firebasen polkuun 'commands/shutdown'
 # .listen() asettaa koodin "kuuntelemaan" kyseistä polkua ja ajamaan ylempänä olevan funktion muutostilanteissa
