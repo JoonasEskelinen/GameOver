@@ -39,18 +39,26 @@
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // --- FIREBASE ASETUKSET ---
-
+        export const firebaseConfig = {
+        apiKey: "AIzaSyBpMkul4HS4Jm5ce_gP0EevQyZfs8Ng6HU",
+        authDomain: "retrogamehall-fbd1f.firebaseapp.com",
+        databaseURL: "https://retrogamehall-fbd1f-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "retrogamehall-fbd1f",
+        storageBucket: "retrogamehall-fbd1f.firebasestorage.app",
+        messagingSenderId: "496285238995",
+        appId: "1:496285238995:web:15b05e0171f8ba9b1cf626"
+        };
 
         // Alustetaan Firebase ja tietokanta
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // MUUTTUJAT SIVUTUSTA VARTEN
+        // MUUTTUJAT USEAMPAA SIVUA VARTEN
         let allGames = [];      // Kaikki tietokannasta haetut pelit
         let currentPage = 0;    // Nykyinen sivu
         const gamesPerPage = 4; // Montako peliä näkyy kerralla (2x2 grid)
 
-        // --- 1. PELITIETOJEN HAKU JA PÄIVITYS ---
+        // PELITIETOJEN HAKU JA PÄIVITYS
         const gamesRef = ref(db, 'games');
         onValue(gamesRef, (snapshot) => {
             const data = snapshot.val();
@@ -66,7 +74,7 @@
             console.error("Virhe haettaessa pelejä:", error);
         });
 
-        // --- 2. UUSI ENNÄTYS -TRIGGERI JA TIETOJEN NÄYTTÖ ---
+        // UUSI ENNÄTYS -TRIGGERI JA TIETOJEN NÄYTTÖ
         const statusRef = ref(db, 'status/new_entry_trigger');
         const fullStatusRef = ref(db, 'status'); // Haetaan koko status-kansio kerralla
 
@@ -85,7 +93,7 @@
                     const playerName = statusData.latest_winner_name || "---";
                     const playerScore = statusData.latest_winner_score || 0;
                     
-                    // Rakennetaan popupin sisältö
+                    // Rakennetaan ennätyspopupin sisältö
                     winnerInfo.innerHTML = `
                         <div class="game-title-popup">${gameName.toUpperCase()}</div>
                         <div class="player-info-popup">
@@ -112,7 +120,7 @@
             }
         });
 
-        // --- 3. RUUDUKON PIIRTÄMINEN (RENDER) ---
+        // RUUDUKON PIIRTÄMINEN
         function renderGrid() {
             const grid = document.getElementById('game-grid');
             if (!grid) return;
@@ -161,7 +169,7 @@
             document.getElementById('page-indicator').innerText = `SIVU ${currentPage + 1} / ${totalPages || 1}`;
         }
 
-        // --- 4. KARUSELLI (SIVUN VAIHTO) ---
+        // KARUSELLI (SIVUN VAIHTO) ---
         setInterval(() => {
             if (allGames.length > gamesPerPage) {
                 currentPage = (currentPage + 1) % Math.ceil(allGames.length / gamesPerPage);
@@ -169,7 +177,7 @@
             }
         }, 15000); // 15 sekunnin välein
 
-        // --- 5. KELLON PÄIVITYS ---
+        // KELLON PÄIVITYS ---
         setInterval(() => {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString('fi-FI');
