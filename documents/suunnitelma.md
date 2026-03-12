@@ -122,15 +122,9 @@ Näyttöliittymä on jaettu 2x2-ruudukkoon, mikä mahdollistaa optimaalisen luet
 
 ---
 
-## Vaihe 5: Loppuraportti ja yhteenveto
 
-### 5.1 Onnistumiset ja opittu
 
-Projekti onnistui teknisesti erinomaisesti. Erityisen tyytyväinen olen visuaaliseen ilmeeseen, joka saavutettiin puhtaalla CSS:llä ilman raskaita kuvatiedostoja.
-
-**Opittua:** Firebase-sääntöjen (`.read`/`.write`) merkitys turvallisuudessa ja Raspberry Pi:n kiosk-moodin konfigurointi Linux-ympäristössä.
-
-### 5.2 Jatkokehitysehdotukset
+## Vaihe 5 Jatkokehitysehdotukset
 
 - **Pelaajien itsepalvelu:** QR-koodi jokaisen pelikoneen kyljessä, joka vie lomakkeeseen tuloksen syöttämistä varten (vaatii ylläpitäjän hyväksynnän).
 - **Historia-data:** Tallennetaan ennätysten historia, jotta voidaan näyttää "Kuukauden parhaat" -listauksia.
