@@ -1,0 +1,180 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over - Hall of Fame</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="flicker-overlay"></div>
+    <div class="scanlines"></div>
+
+    <div id="app">
+        <header>
+            <h1 class="blink">GAME OVER - HALL OF FAME</h1>
+            <div id="clock">00:00:00</div>
+        </header>
+
+        <main id="game-grid" class="grid-container"></main>
+
+        <div id="new-score-overlay" class="hidden">
+            <div class="overlay-content">
+                <h2 class="neon-text">NEW HIGH SCORE!</h2>
+                <div id="winner-info"></div>
+            </div>
+        </div>
+
+        <footer>
+            <div id="page-indicator">SIVU 1 / 1</div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // --- FIREBASE ASETUKSET ---
+
+
+        // Alustetaan Firebase ja tietokanta
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // MUUTTUJAT SIVUTUSTA VARTEN
+        let allGames = [];      // Kaikki tietokannasta haetut pelit
+        let currentPage = 0;    // Nykyinen sivu
+        const gamesPerPage = 4; // Montako peliä näkyy kerralla (2x2 grid)
+
+        // --- 1. PELITIETOJEN HAKU JA PÄIVITYS ---
+        const gamesRef = ref(db, 'games');
+        onValue(gamesRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                // Muunnetaan Firebase-objekti taulukoksi käsittelyä varten
+                allGames = Object.keys(data).map(key => ({
+                    id: key,
+                    ...data[key]
+                }));
+                renderGrid(); // Päivitetään näkymä aina kun data muuttuu
+            }
+        }, (error) => {
+            console.error("Virhe haettaessa pelejä:", error);
+        });
+
+        // --- 2. UUSI ENNÄTYS -TRIGGERI JA TIETOJEN NÄYTTÖ ---
+        const statusRef = ref(db, 'status/new_entry_trigger');
+        const fullStatusRef = ref(db, 'status'); // Haetaan koko status-kansio kerralla
+
+        onValue(statusRef, (snapshot) => {
+            const isTriggered = snapshot.val();
+            const overlay = document.getElementById('new-score-overlay');
+            const winnerInfo = document.getElementById('winner-info');
+
+            if (isTriggered) {
+                    document.body.classList.add('glitch-active');
+                    setTimeout(() => document.body.classList.remove('glitch-active'), 2000);
+                // Jos triggeri on true, haetaan tarkemmat tiedot (Peli, Nimi, Pisteet)
+                onValue(fullStatusRef, (statusSnap) => {
+                    const statusData = statusSnap.val() || {};
+                    const gameName = statusData.latest_winner_game || "UNKNOWN GAME";
+                    const playerName = statusData.latest_winner_name || "---";
+                    const playerScore = statusData.latest_winner_score || 0;
+                    
+                    // Rakennetaan popupin sisältö
+                    winnerInfo.innerHTML = `
+                        <div class="game-title-popup">${gameName.toUpperCase()}</div>
+                        <div class="player-info-popup">
+                            <div class="popup-label">UUSI MESTARI:</div>
+                            <div class="popup-name">${playerName.toUpperCase()}</div>
+                            <div class="popup-score">${playerScore.toLocaleString()} PTS</div>
+                        </div>
+                    `;
+                    
+                    overlay.classList.remove('hidden');
+                    overlay.classList.remove('flash');
+                    void overlay.offsetWidth; // pakottaa selaimen resetoimaan animaation
+                    overlay.classList.add('flash');
+                    
+                    // Automaattinen piilotus 30 sekunnin kuluttua
+                    setTimeout(() => {
+                        overlay.classList.add('hidden');
+                        // Palautetaan triggeri falseksi tietokantaan mobiilisovellusta varten
+                        set(statusRef, false);
+                    }, 30000); 
+                }, { onlyOnce: true }); // Haetaan nimi/pisteet vain kerran triggeriä kohden
+            } else {
+                overlay.classList.add('hidden');
+            }
+        });
+
+        // --- 3. RUUDUKON PIIRTÄMINEN (RENDER) ---
+        function renderGrid() {
+            const grid = document.getElementById('game-grid');
+            if (!grid) return;
+            grid.innerHTML = ''; // Tyhjennetään vanha sisältö
+
+            // Lasketaan näytettävät pelit sivunumeron perusteella
+            const start = currentPage * gamesPerPage;
+            const pageGames = allGames.slice(start, start + gamesPerPage);
+
+            pageGames.forEach(game => {
+                const title = game.title ? game.title.toUpperCase() : "EI NIMIÄ";
+                const color = game.color || "#ffffff";
+                
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.style.borderColor = color;
+
+                // Luodaan Top 5 -lista pelikortin sisälle
+                let scoresHtml = '';
+                if (game.topScores) {
+                    // Järjestetään sijat 1, 2, 3...
+                    Object.keys(game.topScores).sort((a, b) => a - b).forEach(rank => {
+                        const entry = game.topScores[rank];
+                        if (entry) {
+                            scoresHtml += `
+                                <div class="score-row">
+                                    <span class="rank">${rank}.</span>
+                                    <span class="name">${(entry.name || '---').toUpperCase()}</span>
+                                    <span class="score">${(entry.score || 0).toLocaleString()}</span>
+                                </div>`;
+                        }
+                    });
+                } else {
+                    scoresHtml = '<div class="score-row">Ei tuloksia</div>';
+                }
+
+                card.innerHTML = `
+                    <h2 style="color: ${color}">${title}</h2>
+                    <div class="scores-list">${scoresHtml}</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Päivitetään sivunumeron teksti
+            const totalPages = Math.ceil(allGames.length / gamesPerPage);
+            document.getElementById('page-indicator').innerText = `SIVU ${currentPage + 1} / ${totalPages || 1}`;
+        }
+
+        // --- 4. KARUSELLI (SIVUN VAIHTO) ---
+        setInterval(() => {
+            if (allGames.length > gamesPerPage) {
+                currentPage = (currentPage + 1) % Math.ceil(allGames.length / gamesPerPage);
+                renderGrid();
+            }
+        }, 15000); // 15 sekunnin välein
+
+        // --- 5. KELLON PÄIVITYS ---
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('fi-FI');
+        }, 1000);
+
+    </script>
+</body>
+</html>
