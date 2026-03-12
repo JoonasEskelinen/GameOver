@@ -1,1 +1,99 @@
-
+{
+  "games": {
+    "game_01": {
+      "title": "Flipperi - Mario Bros",
+      "color": "#FFFF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_02": {
+      "title": "Flipperi - Turtles",
+      "color": "#00FF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_03": {
+      "title": "Flipperi - StarWars",
+      "color": "#FFFF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_04": {
+      "title": "Flipperi - South Park",
+      "color": "#00FF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_05": {
+      "title": "Virtual Striker",
+      "color": "#FFFF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_06": {
+      "title": "Tekken",
+      "color": "#00FF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_07": {
+      "title": "Sega Rally",
+      "color": "#FFFF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    },
+    "game_08": {
+      "title": "California Speed",
+      "color": "#00FF00",
+      "topScores": {
+        "1": { "name": "Eka Esimerkki", "score": 25000 },
+        "2": { "name": "Toka Testi", "score": 20000 },
+        "3": { "name": "Kolmas Kokeilu", "score": 15000 },
+        "4": { "name": "Neljäs Nimi", "score": 10000 },
+        "5": { "name": "Viides Yrittäjä", "score": 5000 }
+      }
+    }
+  },
+  "commands": {
+    "shutdown": false
+  },
+  "status": {
+    "new_entry_trigger": false,
+    "latest_winner_game": ""
+  }
+}
