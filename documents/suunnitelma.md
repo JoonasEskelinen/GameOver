@@ -56,8 +56,8 @@ Projekti toteutetaan kolmessa vaiheessa:
 
 ### 2.2 Ei-toiminnalliset vaatimukset
 
-- **Visuaalisuus:** Käytössä on oltava `Press Start 2P` -pikselifontti ja CRT-tyyliset scanline-efektit.
-- **Reaaliaikaisuus:** Data-yhteyden on oltava jatkuva (WebSocket/Firebase stream).
+- **Visuaalisuus:** Sivun on mukailtava -80 ja -90 lukujen tyyliä.
+- **Reaaliaikaisuus:** Data-yhteyden on oltava jatkuva.
 - **Ylläpito:** Ohjelman on käynnistyttävä automaattisesti Raspberryn käynnistyksen jälkeen (kiosk mode).
 
 ### 2.3 Käyttäjätarinat (User Stories)
